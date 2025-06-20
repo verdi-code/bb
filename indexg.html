@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+}
+
+    .promo {
+  background: linear-gradient(to right, #190F0F, #2c1414);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+ 
+  transform: translateY(5px);
+  transition: all 0.3s ease-in-out;
+}
+
+    .container {
+      display: flex;
+      flex-direction: row-reverse;
+      width: 100%;
+      max-width: 1200px;
+      background: white;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.1);
+      border-radius: 20px;
+      overflow: hidden;
+      animation: fadeIn 1s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+    .game-area, .promo-area {
+      flex: 1;
+      padding: 40px;
+    }
+    
+    .game-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .game-area h2 {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+      color: #4E0100;
+    }
+    .game-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 70px);
+      grid-gap: 15px;
+      margin-top: 25px;
+    }
+    .card {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(to bottom, #fff, #f9f9f9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 32px;
+    border-radius: 12px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+    transition: transform 0.4s ease, background 0.3s ease;
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+    }
+
+    .card:hover {
+      transform: rotateY(10deg) scale(1.05);
+    }
+    .hidden {
+      background: #ccc;
+      color: transparent;
+    }
+    .timer {
+      margin-top: 5px;
+      font-weight: bold;
+      color: #D20000;
+    }
+    .lives {
+      margin-top: 10px;
+      color: #D20000;
+      font-size: 20px;
+      transition: transform 0.2s ease;
+    }
+    .lives.animate {
+      transform: scale(1.3);
+    }
+    .result {
+      margin-top: 25px;
+      font-weight: bold;
+      font-size: 1.3rem;
+      color: #008000;
+      text-align: center;
+    }
+    .leaderboard {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #4E0100;
+      text-align: center;
+    }
+    .popup-content h3 {
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+    }
+    .popup-content .voucher {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin: 15px 0;
+      color: #4E0100;
+    }
+    .popup-content button {
+      background-color: #25D366;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .popup-content button:hover {
+      background-color: #1ea955;
+    }
+    .popup-close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 1.5rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #4E0100;
+    }
+    .popup {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+    .popup-content {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      text-align: center;
+      position: relative;
+      max-width: 90%;
+    }
+    .voucher {
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin: 1rem 0;
+    }
+    .validator {
+      margin: 2rem auto;
+      padding: 1rem;
+      background: #fefefe;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      max-width: 600px;
+      text-align: center;
+    }
+    .validator h3 {
+      margin-bottom: 10px;
+    }
+    .validator input {
+      padding: 0.5rem;
+      margin: 0.5rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .validator button {
+      padding: 0.5rem 1rem;
+      border: none;
+      background: #4E0100;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    max-width: 100%;
+    border-radius: 0;
+  }
+
+  .game-area{
+        border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+
+  }
+
+  .promo-area, .game-area {
+    padding: 25px 20px;
+  }
+
+  .promo-area {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+  }
+
+  .promo-area h2, .game-area h2 {
+    font-size: 1.8rem;
+  }
+
+  .promo-item {
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+
+  .promo-item h3 {
+    font-size: 1.2rem;
+  }
+
+  .promo-item p {
+    font-size: 0.9rem;
+  }
+
+  .game-grid {
+    grid-template-columns: repeat(4, 48px);
+    grid-gap: 10px;
+  }
+
+  .card {
+    width: 48px;
+    height: 48px;
+    font-size: 22px;
+  }
+
+  .timer, .lives {
+    font-size: 1rem;
+    margin: 10px 0;
+  }
+
+  .result, .leaderboard {
+    font-size: 1rem;
+    margin-top: 20px;
+  }
+
+  .popup-content {
+    width: 90%;
+    padding: 1.5rem 1rem;
+  }
+
+  .popup-content h3 {
+    font-size: 1.5rem;
+  }
+
+  .voucher {
+    font-size: 1.2rem;
+  }
+
+  .popup-content button {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+
+  .validator input {
+    width: 100%;
+    margin: 0.5rem 0;
+  }
+
+  #adminButton {
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+}
+
+
+    .play-button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #B00000;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .play-button:hover {
+      background-color: #900000;
+    }
+
+</style>
+<body>
+<section class="promo">
+  <div class="container">
+        <div class="game-area">
+      <h2>Memory Game</h2>
+      <div class="timer" id="timer">Waktu: 30</div>
+      <div class="lives" id="lives">❤️❤️❤️</div>
+      <div class="game-grid" id="game-grid"></div>
+      <button id="playButton" style="padding: 12px 24px; font-size: 18px;">🎮 Mulai Game</button>
+
+      <div class="result" id="result"></div>
+      <div class="leaderboard" id="leaderboard">🏆 High Score Hari Ini: <span id="highscore">0</span></div>
+    </div>
+  </div>
+
+  <div class="popup" id="popup">
+    <div class="popup-content">
+      <button class="popup-close" onclick="closePopup()">&times;</button>
+      <h3>🎊 Selamat!</h3>
+      <div class="voucher" id="voucherCode">Kode Voucher: </div>
+      <button onclick="shareWhatsApp()">Bagikan ke WhatsApp</button>
+    </div>
+  </div>
+
+    <button id="adminButton" style="display:none; position: fixed; bottom: 20px; right: 20px; z-index: 9999; background: #4E0100; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer;">🔐 Validasi Admin</button>
+
+  <div class="popup"  id="adminPopup">
+    <div class="popup-content">
+         <button class="popup-close" onclick="document.getElementById('adminPopup').style.display='none'">&times;</button>
+    <h3>🔐 Validasi Kode Voucher</h3>
+    <label>Tanggal:</label>
+    <input type="date" id="checkDate">
+    <label>Kode:</label>
+    <input type="text" id="userCode" placeholder="Masukkan kode dari user">
+    <button onclick="validateCode()">Cek Validasi</button>
+    <p id="validationResult" style="margin-top: 1rem; font-weight: bold;"></p>
+
+    </div>
+  </div>
+    <audio id="win-sound" src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_e5e30500b5.mp3?filename=correct-2-46134.mp3"></audio>
+  <audio id="fail-sound" src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_3e3be3c646.mp3?filename=fail-144746.mp3"></audio>
+</section>
+
+<script>
+    
+const gameGrid = document.getElementById('game-grid');
+const timerEl = document.getElementById('timer');
+const resultEl = document.getElementById('result');
+const livesEl = document.getElementById('lives');
+const winSound = document.getElementById('win-sound');
+const failSound = document.getElementById('fail-sound');
+const highScoreEl = document.getElementById('highscore');
+
+let chances = 3;
+let timer;
+let interval;
+let flipped = [], matched = [], symbols = [];
+
+function shuffleSymbols() {
+  const base = ['🍤','🥟','🍙','🍣','🍥','🍢','🍘','🍛'];
+  symbols = base.concat(base).sort(() => 0.5 - Math.random());
+}
+
+function updateLives() {
+  livesEl.classList.add('animate');
+  livesEl.innerText = '❤️'.repeat(chances);
+  setTimeout(() => livesEl.classList.remove('animate'), 300);
+}
+
+function getRemainingTime(timestamp) {
+  const now = new Date().getTime();
+  const distance = timestamp - now;
+  if (distance <= 0) return null;
+  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  return `${hours}j ${minutes}m ${seconds}d`;
+}
+
+function showCooldown(playedUntil) {
+  const countdown = setInterval(() => {
+    const remaining = getRemainingTime(playedUntil);
+    if (!remaining) {
+      clearInterval(countdown);
+      location.reload();
+    } else {
+      resultEl.innerText = `⛔ Kamu sudah bermain hari ini. Coba lagi dalam ${remaining}`;
+    }
+  }, 1000);
+}
+
+function resetGame() {
+  flipped = [];
+  matched = [];
+  timer = 30;
+  gameGrid.innerHTML = '';
+  shuffleSymbols();
+  createGrid();
+  updateLives();
+  clearInterval(interval);
+  interval = setInterval(() => {
+    timer--;
+    timerEl.innerText = `Waktu: ${timer}`;
+    if (timer <= 0) {
+      clearInterval(interval);
+      chances--;
+      failSound.play();
+      if (chances > 0) {
+        updateLives();
+        resultEl.innerText = `⏰ Waktu habis! Sisa nyawa: ${chances}. Main lagi!`;
+        setTimeout(() => resetGame(), 1500);
+      } else {
+        const nextTime = new Date().getTime() + 24*60*60*1000;
+        localStorage.setItem('playedUntil', nextTime);
+        resultEl.innerText = '💀 Kesempatan habis! Coba lagi besok.';
+        updateLives();
+      }
+    }
+  }, 1000);
+}
+
+function createGrid() {
+  symbols.forEach((symbol, index) => {
+    const card = document.createElement('div');
+    card.classList.add('card', 'hidden');
+    card.dataset.symbol = symbol;
+    card.dataset.index = index;
+    card.innerText = symbol;
+    card.addEventListener('click', () => flipCard(card));
+    gameGrid.appendChild(card);
+  });
+}
+
+function flipCard(card) {
+  if (flipped.length >= 2 || matched.includes(card.dataset.index)) return;
+  card.classList.remove('hidden');
+  flipped.push(card);
+  if (flipped.length === 2) {
+    if (flipped[0].dataset.symbol === flipped[1].dataset.symbol) {
+      winSound.play();
+      matched.push(flipped[0].dataset.index, flipped[1].dataset.index);
+      flipped = [];
+      if (matched.length === symbols.length) {
+        clearInterval(interval);
+        const nextTime = new Date().getTime() + 24*60*60*1000;
+        localStorage.setItem('playedUntil', nextTime);
+        resultEl.innerText = '🎉 Selamat!';
+        showWinPopup();
+        const score = 30 - timer;
+        const best = localStorage.getItem('highScore') || 99;
+        if (score < best) {
+          localStorage.setItem('highScore', score);
+          highScoreEl.innerText = score;
+        }
+      }
+    } else {
+      setTimeout(() => {
+        flipped.forEach(card => card.classList.add('hidden'));
+        flipped = [];
+      }, 700);
+    }
+  }
+}
+
+function startGame() {
+  const playedUntil = localStorage.getItem('playedUntil');
+  if (playedUntil && new Date().getTime() < parseInt(playedUntil)) {
+    showCooldown(parseInt(playedUntil));
+    return;
+  }
+  const high = localStorage.getItem('highScore') || 0;
+  highScoreEl.innerText = high;
+  resetGame();
+}
+
+document.getElementById('playButton').addEventListener('click', () => {
+  document.getElementById('playButton').style.display = 'none'; // sembunyikan tombol saat game dimulai
+  startGame();
+});
+
+
+function generateDailyUniqueVoucher() {
+  const today = new Date().toDateString();
+  const saved = localStorage.getItem('todayVoucherCode');
+
+  if (saved) {
+    const data = JSON.parse(saved);
+    if (data.date === today) return data.code;
+  }
+
+  const randomCode = 'SVARGA-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+  localStorage.setItem('todayVoucherCode', JSON.stringify({ date: today, code: randomCode }));
+  return randomCode;
+}
+
+function showWinPopup() {
+  const code = generateDailyUniqueVoucher();
+  document.getElementById('voucherCode').innerText = `Kode Voucher: ${code}`;
+  document.getElementById('popup').style.display = 'flex';
+  confetti({ particleCount: 150, spread: 100, origin: { y: 0.4 } });
+}
+
+function closePopup() {
+  document.getElementById('popup').style.display = 'none';
+}
+
+function shareWhatsApp() {
+  const code = document.getElementById('voucherCode').innerText.replace('Kode Voucher: ', '');
+  const url = 'https://wa.me/?text=' + encodeURIComponent(`Saya baru saja menangin voucher ${code} dari game memory Svarga Dimsum! Yuk coba juga!`);
+  window.open(url, '_blank');
+}
+
+function generateCodeFromDate(dateStr) {
+  const salt = "SVARGA2025";
+  let hash = 0;
+  const str = salt + dateStr;
+  for (let i = 0; i < str.length; i++) {
+    hash = (hash << 5) - hash + str.charCodeAt(i);
+    hash |= 0;
+  }
+  return 'SVARGA-' + Math.abs(hash).toString(36).toUpperCase().substr(0, 6);
+}
+
+// Shortcut keyboard: Ctrl + Alt + V
+document.addEventListener('keydown', function(e) {
+  if (e.ctrlKey && e.altKey && e.key.toLowerCase() === 'v') {
+    document.getElementById('adminButton').style.display = 'block';
+  }
+});
+
+document.getElementById('adminButton').addEventListener('click', function() {
+  document.getElementById('adminPopup').style.display = 'flex';
+});
+
+function validateCode() {
+  const date = new Date(document.getElementById('checkDate').value);
+  const code = document.getElementById('userCode').value.trim().toUpperCase();
+  const dateStr = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+  const validCode = generateCodeFromDate(dateStr);
+  const resultText = (code === validCode)
+    ? "✅ Kode valid"
+    : "❌ Kode tidak cocok";
+  document.getElementById('validationResult').innerText = resultText;
+}
+
+
+</script>
+
+</body>
+</html>
