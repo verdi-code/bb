@@ -337,6 +337,8 @@
   <audio id="fail-sound" src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_3e3be3c646.mp3?filename=fail-144746.mp3"></audio>
 </section>
 
+
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 <script>
     
 const gameGrid = document.getElementById('game-grid');
@@ -355,14 +357,14 @@ let flipped = [], matched = [], symbols = [];
 function shuffleSymbols() {
   // Gunakan icon Font Awesome sebagai simbol
   const base = [
-    'fas fa-bowl-rice',
-    'fas fa-utensils',
-    'fas fa-drumstick-bite',
-    'fas fa-hotdog',
-    'fas fa-egg',
-    'fas fa-pepper-hot',
-    'fas fa-mug-hot',
-    'fas fa-store'
+    'openmoji:dumpling',
+    'openmoji:cooked-rice',
+    'openmoji:hot-pot',
+    'openmoji:bento-box',
+    'openmoji:chopsticks',
+    'openmoji:garlic',
+    'openmoji:fried-shrimp',
+    'openmoji:hot-pepper'
   ];
   symbols = base.concat(base).sort(() => 0.5 - Math.random());
 }
